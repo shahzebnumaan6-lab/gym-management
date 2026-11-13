@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitZone - Gym Management System</title>
+<link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+  <div class="layout">
+
+    <aside>
+      <div class="logo">Fit<span>Zone</span></div>
+
+      <nav>
+        <button class="active" data-section="Dashboard">▦ Dashboard</button>
+        <button data-section="Members">♙ Members</button>
+        <button data-section="Trainers">♟ Trainers</button>
+        <button data-section="Membership Plans">▤ Membership Plans</button>
+        <button data-section="Memberships">▣ Memberships</button>
+        <button data-section="Payments">₹ Payments</button>
+        <button data-section="Fitness Activities">♡ Fitness Activities</button>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <h1 id="pageTitle">Dashboard</h1>
+        <span class="muted">Gym Management System</span>
+      </div>
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="page-section visible">
+          <div class="panel">
+          <h2>Welcome to FitZone</h2>
+          <p class="muted">
+            Manage gym members, trainers, membership plans and fitness activities
+            using the menu on the left.
+          </p>
+          <button class="action" onclick="showSection('Members')">
+            Manage Members
+          </button>
+        </div>
+        <div class="stats">
+          <div class="stat-card">
+            <p>Total Members</p>
+            <h2 id="memberCount">0</h2>
+          </div>
+
+          <div class="stat-card">
+            <p>Total Trainers</p>
+            <h2 id="trainerCount">0</h2>
+          </div>
+
+          <div class="stat-card">
+            <p>Membership Plans</p>
+            <h2 id="planCount">0</h2>
+          </div>
+
+          <div class="stat-card">
+            <p>Fitness Activities</p>
+            <h2 id="activityCount">0</h2>
+          </div>
+        </div>
+
+      
+      </section>
+
+      <!-- Members -->
+      <section id="membersPage" class="page-section">
+        <div class="panel">
+          <h2>Register New Member</h2>
+          <p class="muted">Enter the details below to register a gym member.</p>
+
+          <form id="memberForm" class="member-form">
+            <label>
+              Full Name *
+              <input type="text" name="name" maxlength="100"
+                     placeholder="Enter full name" required>
+            </label>
+
+            <label>
+              Email Address *
+              <input type="email" name="email" maxlength="100"
+                     placeholder="Enter email address" required>
+            </label>
+
+            <label>
+              Phone Number
+              <input type="tel" name="phone" maxlength="15"
+                     placeholder="Enter phone number">
+            </label>
+
+            <label>
+              Join Date *
+              <input type="date" name="join_date" id="joinDate" required>
+            </label>
+
+            <div class="full-width">
+              <button type="submit" class="action" id="memberSubmitButton">
+                Add Member
+              </button>
+
+              <button type="button" class="cancel-btn"
+                      id="cancelEditButton" hidden>
+                Cancel Edit
+              </button>
+            </div>
+          </form>
+
+          <p id="memberMessage" role="status"></p>
+        </div>
+
+        <div class="panel">
+          <h2>Registered Members</h2>
+          <p class="muted">Member details stored in your MySQL database.</p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Join Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody">
+                <tr>
+                  <td colspan="6">Loading members...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trainers -->
+      <section id="trainersPage" class="page-section">
+        <div class="panel">
+          <h2>Trainers</h2>
+          <div class="table-wrap">
+            <table>
+              <thead id="trainersTableHead"></thead>
+              <tbody id="trainersTableBody">
+                <tr><td>Loading trainers...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Membership Plans -->
+      <section id="plansPage" class="page-section">
+        <div class="panel">
+          <h2>Membership Plans</h2>
+          <div class="table-wrap">
+            <table>
+              <thead id="plansTableHead"></thead>
+              <tbody id="plansTableBody">
+                <tr><td>Loading plans...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    
+<!-- Memberships -->
+<section id="membershipsPage" class="page-section">
+  <div class="panel">
+    <h2>Memberships</h2>
+    <p class="muted">
+      View members, their membership plans, dates, and status.
+    </p>
+
+<div class="form-panel">
+  <h3>Add New Membership</h3>
+
+  <form id="membershipForm">
+    <label for="membershipMember">Select Member</label>
+    <select id="membershipMember" name="member_id" required>
+      <option value="">Choose a member</option>
+    </select>
+
+    <label for="membershipPlan">Select Membership Plan</label>
+    <select id="membershipPlan" name="plan_id" required>
+      <option value="">Choose a plan</option>
+    </select>
+
+    <label for="membershipStartDate">Start Date</label>
+    <input
+      type="date"
+      id="membershipStartDate"
+      name="start_date"
+      required
+    >
+
+    <button type="submit">Add Membership</button>
+    <p id="membershipMessage"></p>
+  </form>
+</div>
+
+    <div class="table-container">
+      <table>
+        <thead id="membershipsTableHead"></thead>
+        <tbody id="membershipsTableBody">
+          <tr>
+            <td>Loading memberships...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+ 
+<!-- Payments -->
+<section id="paymentsPage" class="page-section">
+  <div class="panel">
+    <h2>Payments</h2>
+    <p class="muted">
+      View membership payment records.
+    </p>
+
+    <div class="table-container">
+      <table>
+        <thead id="paymentsTableHead"></thead>
+        <tbody id="paymentsTableBody">
+          <tr>
+            <td>Loading payments...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+      <!-- Fitness Activities -->
+      <section id="activitiesPage" class="page-section">
+        <div class="panel">
+          <h2>Fitness Activities</h2>
+          <div class="table-wrap">
+            <table>
+              <thead id="activitiesTableHead"></thead>
+              <tbody id="activitiesTableBody">
+                <tr><td>Loading activities...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    let editingMemberId = null;
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, character => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[character]);
+    }
+
+    function showMessage(message, isError = false) {
+      const element = document.getElementById('memberMessage');
+      element.textContent = message;
+      element.style.color = isError ? '#b91c1c' : '#047857';
+    }
+
+    function setDefaultJoinDate() {
+      const dateInput = document.getElementById('joinDate');
+      const now = new Date();
+      const localDate = new Date(
+        now.getTime() - now.getTimezoneOffset() * 60000
+      ).toISOString().slice(0, 10);
+
+      dateInput.value = localDate;
+    }
+
+    function showSection(section) {
+      const sectionIds = {
+        'Dashboard': 'dashboard',
+        'Members': 'membersPage',
+        'Trainers': 'trainersPage',
+        'Membership Plans': 'plansPage',
+        'Memberships': 'membershipsPage',
+        'Payments': 'paymentsPage',
+        'Fitness Activities': 'activitiesPage'
+      };
+
+      document.querySelectorAll('.page-section').forEach(page => {
+        page.classList.remove('visible');
+      });
+
+      const pageId = sectionIds[section];
+      if (pageId) {
+        document.getElementById(pageId).classList.add('visible');
+      }
+
+      document.getElementById('pageTitle').textContent = section;
+
+      document.querySelectorAll('nav button').forEach(button => {
+        button.classList.toggle(
+          'active',
+          button.dataset.section === section
+        );
+      });
+
+      if (section === 'Dashboard') loadDashboard();
+      if (section === 'Members') loadMembers();
+      if (section === 'Trainers') loadTable('/api/trainers', 'trainersTableHead', 'trainersTableBody');
+      if (section === 'Membership Plans') loadTable('/api/plans', 'plansTableHead', 'plansTableBody');
+      if (section === 'Memberships') {
+    loadTable('/api/memberships', 'membershipsTableHead', 'membershipsTableBody');
+}
+if (section === 'Payments') {
+    loadTable('/api/payments', 'paymentsTableHead', 'paymentsTableBody');
+}
+      if (section === 'Fitness Activities') loadTable('/api/activities', 'activitiesTableHead', 'activitiesTableBody');
+    }
+
+    document.querySelectorAll('nav button').forEach(button => {
+      button.addEventListener('click', () => {
+        showSection(button.dataset.section);
+      });
+    });
+
+    async function getJSON(url) {
+      const response = await fetch(url);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Request failed');
+      }
+
+      return result;
+    }
+
+    async function loadDashboard() {
+      try {
+        const [members, trainers, plans, activities] = await Promise.all([
+          getJSON('/api/members'),
+          getJSON('/api/trainers'),
+          getJSON('/api/plans'),
+          getJSON('/api/activities')
+        ]);
+
+        document.getElementById('memberCount').textContent = members.length;
+        document.getElementById('trainerCount').textContent = trainers.length;
+        document.getElementById('planCount').textContent = plans.length;
+        document.getElementById('activityCount').textContent = activities.length;
+      } catch (error) {
+        console.error('Dashboard loading error:', error);
+      }
+    }
+
+    async function loadMembers() {
+      const tbody = document.getElementById('membersTableBody');
+      tbody.innerHTML = '<tr><td colspan="6">Loading members...</td></tr>';
+
+      try {
+        const members = await getJSON('/api/members');
+
+        if (!Array.isArray(members) || members.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="6">No members registered yet.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = members.map(member => `
+          <tr>
+            <td>${escapeHTML(member.member_id)}</td>
+            <td>${escapeHTML(member.name)}</td>
+            <td>${escapeHTML(member.email)}</td>
+            <td>${escapeHTML(member.phone || '-')}</td>
+            <td>${escapeHTML(member.join_date ? String(member.join_date).slice(0, 10) : '-')}</td>
+            <td>
+              <button class="edit-btn" data-edit-id="${Number(member.member_id)}">
+                Edit
+              </button>
+              <button class="delete-btn" data-delete-id="${Number(member.member_id)}">
+                Delete
+              </button>
+            </td>
+          </tr>
+        `).join('');
+
+        tbody.querySelectorAll('[data-edit-id]').forEach(button => {
+          button.addEventListener('click', () => {
+            editMember(Number(button.dataset.editId));
+          });
+        });
+
+        tbody.querySelectorAll('[data-delete-id]').forEach(button => {
+          button.addEventListener('click', () => {
+            deleteMember(Number(button.dataset.deleteId));
+          });
+        });
+      } catch (error) {
+        console.error('Members loading error:', error);
+        tbody.innerHTML =
+          '<tr><td colspan="6">Could not load members. Check the server.</td></tr>';
+      }
+    }
+
+    async function editMember(id) {
+      try {
+        const members = await getJSON('/api/members');
+        const member = members.find(
+          item => Number(item.member_id) === Number(id)
+        );
+
+        if (!member) {
+          alert('Member not found.');
+          return;
+        }
+
+        editingMemberId = id;
+
+        const form = document.getElementById('memberForm');
+        form.elements['name'].value = member.name || '';
+        form.elements['email'].value = member.email || '';
+        form.elements['phone'].value = member.phone || '';
+        document.getElementById('joinDate').value =
+          member.join_date ? String(member.join_date).slice(0, 10) : '';
+
+        document.getElementById('memberSubmitButton').textContent =
+          'Update Member';
+        document.getElementById('cancelEditButton').hidden = false;
+
+        showMessage('Edit the details and click Update Member.');
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (error) {
+        console.error('Edit member error:', error);
+        alert('Could not load member details.');
+      }
+    }
+
+    function cancelEdit() {
+      document.getElementById('memberForm').reset();
+      editingMemberId = null;
+
+      document.getElementById('memberSubmitButton').textContent = 'Add Member';
+      document.getElementById('cancelEditButton').hidden = true;
+
+      showMessage('');
+      setDefaultJoinDate();
+    }
+
+    document.getElementById('cancelEditButton').addEventListener(
+      'click',
+      cancelEdit
+    );
+
+    document.getElementById('memberForm').addEventListener(
+      'submit',
+      async function (event) {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const data = {
+          name: form.elements['name'].value.trim(),
+          email: form.elements['email'].value.trim(),
+          phone: form.elements['phone'].value.trim(),
+          join_date: form.elements['join_date'].value
+        };
+
+        const isEditing = editingMemberId !== null;
+        const url = isEditing
+          ? `/api/members/${editingMemberId}`
+          : '/api/members';
+
+        try {
+          const response = await fetch(url, {
+            method: isEditing ? 'PUT' : 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.error || 'Could not save member.');
+          }
+
+          form.reset();
+          editingMemberId = null;
+
+          document.getElementById('memberSubmitButton').textContent =
+            'Add Member';
+          document.getElementById('cancelEditButton').hidden = true;
+
+          setDefaultJoinDate();
+          showMessage(result.message || 'Member saved successfully!');
+
+          await loadMembers();
+          await loadDashboard();
+        } catch (error) {
+          console.error('Save member error:', error);
+          showMessage(error.message || 'Could not save member.', true);
+        }
+      }
+    );
+
+    async function deleteMember(id) {
+      if (!confirm('Are you sure you want to delete this member?')) return;
+
+      try {
+        const response = await fetch(`/api/members/${id}`, {
+          method: 'DELETE'
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Could not delete member.');
+        }
+
+        showMessage(result.message || 'Member deleted successfully!');
+        await loadMembers();
+        await loadDashboard();
+      } catch (error) {
+        console.error('Delete member error:', error);
+        alert(error.message || 'Could not delete member.');
+      }
+    }
+
+    async function loadTable(url, headId, bodyId) {
+      const head = document.getElementById(headId);
+      const body = document.getElementById(bodyId);
+
+      head.innerHTML = '';
+      body.innerHTML = '<tr><td>Loading...</td></tr>';
+
+      try {
+        const rows = await getJSON(url);
+
+        if (!Array.isArray(rows) || rows.length === 0) {
+          body.innerHTML = '<tr><td>No records found.</td></tr>';
+          return;
+        }
+
+        const columns = Object.keys(rows[0]);
+        head.innerHTML = '<tr>' +
+          columns.map(column => `<th>${escapeHTML(column.replace(/_/g, ' '))}</th>`).join('') +
+          '</tr>';
+
+        body.innerHTML = rows.map(row =>
+          '<tr>' + columns.map(column =>
+            `<td>${escapeHTML(row[column] ?? '-')}</td>`
+          ).join('') + '</tr>'
+        ).join('');
+      } catch (error) {
+        console.error(`Loading ${url} failed:`, error);
+        body.innerHTML = '<tr><td>Could not load records. Check the server.</td></tr>';
+      }
+    }
+
+    setDefaultJoinDate();
+    loadDashboard();
+
+    
+/* Load members and plans into the Add Membership form */
+async function loadMembershipFormOptions() {
+    try {
+        const memberResponse = await fetch('/api/members');
+        const members = await memberResponse.json();
+
+        const memberSelect = document.getElementById('membershipMember');
+
+        memberSelect.innerHTML = '<option value="">Choose a member</option>';
+
+        members.forEach(member => {
+            const option = document.createElement('option');
+            option.value = member.member_id;
+            option.textContent = member.name;
+            memberSelect.appendChild(option);
+        });
+
+        const planResponse = await fetch('/api/plans');
+        const plans = await planResponse.json();
+
+        const planSelect = document.getElementById('membershipPlan');
+
+        planSelect.innerHTML = '<option value="">Choose a plan</option>';
+
+        plans.forEach(plan => {
+            const option = document.createElement('option');
+            option.value = plan.plan_id;
+            option.textContent =
+                `${plan.plan_name} - ₹${plan.price} (${plan.duration_months} month(s))`;
+            planSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error loading membership options:', error);
+    }
+}
+
+/* Submit the Add Membership form */
+document.getElementById('membershipForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const message = document.getElementById('membershipMessage');
+    const memberId = document.getElementById('membershipMember').value;
+    const planId = document.getElementById('membershipPlan').value;
+    const startDate = document.getElementById('membershipStartDate').value;
+
+    message.textContent = 'Saving membership...';
+
+    try {
+        const response = await fetch('/api/memberships', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                member_id: memberId,
+                plan_id: planId,
+                start_date: startDate
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || 'Could not add membership.');
+        }
+
+        message.textContent = 'Membership added successfully!';
+        this.reset();
+
+        loadMembershipFormOptions();
+        loadTable('/api/memberships', 'membershipsTableHead', 'membershipsTableBody');
+    } catch (error) {
+        message.textContent = error.message;
+    }
+});
+
+loadMembershipFormOptions();
+
+  </script>
+</body>
+</html>

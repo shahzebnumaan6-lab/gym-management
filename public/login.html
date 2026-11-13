@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitZone | Login</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #080808;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+   .background-glow {
+    position: fixed;
+    width: 450px;
+    height: 450px;
+    background: #ff073a;
+    filter: blur(100px);
+    opacity: 0.65;
+    top: 5%;
+    left: 5%;
+    pointer-events: none;
+    animation: glowMove 4s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+@keyframes glowMove {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(400px, 200px);
+    }
+}
+
+/* Moving red ambient glow */
+body::before {
+    content: "";
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    right: -100px;
+    bottom: -100px;
+    background: #ff073a;
+    filter: blur(150px);
+    opacity: 0.13;
+    pointer-events: none;
+    animation: secondGlow 12s ease-in-out infinite alternate;
+    z-index: 0;
+}
+
+@keyframes secondGlow {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(-250px, -180px);
+    }
+}
+
+        .login-container {
+            width: 100%;
+            max-width: 1000px;
+            min-height: 580px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+          background: rgba(17, 17, 17, 0.72);
+border: 1px solid rgba(255, 255, 255, 0.12);
+backdrop-filter: blur(22px);
+-webkit-backdrop-filter: blur(22px);
+            border-radius: 18px;
+            overflow: hidden;
+box-shadow:
+    0 0 45px rgba(255, 7, 58, 0.12),
+    0 20px 70px rgba(0, 0, 0, 0.55);
+            position: relative;
+            z-index: 1;
+            animation: loginAppear 0.9s ease-out both;
+transform-origin: center;
+        }
+
+        .brand-panel {
+            position: relative;
+overflow: hidden;
+isolation: isolate;
+            padding: 55px 45px;
+            background:
+                linear-gradient(135deg, rgba(0,0,0,.82), rgba(0,0,0,.94)),
+                url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1000');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .brand-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 80% 20%,
+        rgba(255, 7, 58, 0.22), transparent 45%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+        .logo {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #ff073a;
+        }
+
+        .brand-content h1 {
+            font-size: clamp(38px, 5vw, 58px);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .brand-content h1 span {
+            color: #ff073a;
+        }
+
+        .brand-content p {
+            color: #bbb;
+            line-height: 1.8;
+            font-size: 14px;
+            max-width: 350px;
+        }
+.brand-footer {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 0 0 12px rgba(255, 7, 58, 0.5);
+}
+
+.brand-footer span {
+    color: #ff073a;
+}
+  .form-panel {
+    padding: 65px 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 0 40px rgba(255, 7, 58, 0.04);
+
+    position: relative;
+    z-index: 1;
+}
+
+        .form-panel h2 {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 38px;
+        }
+
+        .input-group {
+            margin-bottom: 22px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            background: #1c1c1c;
+            border: 1px solid #333;
+            border-radius: 7px;
+            color: white;
+            outline: none;
+            font-size: 13px;
+        }
+
+        .input-group input:focus {
+            border-color: #ff073a;
+            box-shadow: 0 0 10px rgba(255, 7, 58, .18);
+        }
+/* FLOATING INPUT LABELS */
+.floating-group {
+    position: relative;
+    margin-top: 12px;
+}
+
+.floating-group input {
+    width: 100%;
+    height: 58px;
+    padding: 20px 15px 10px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid #383838;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+}
+
+.floating-group label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 11px;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    margin: 0;
+}
+
+.floating-group input:focus + label,
+.floating-group input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 12px;
+    transform: translateY(-50%);
+    padding: 3px 7px;
+    background: #151515;
+    color: #ff3155;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+        .password-box {
+            position: relative;
+        }
+
+        .password-box input {
+            padding-right: 65px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #ff4967;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 7px;
+            background: #ff073a;
+            color: white;
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: .3s;
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #ff073a;
+            box-shadow: 0 0 22px rgba(255, 7, 58, .4);
+        }
+
+        .login-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #message {
+            min-height: 20px;
+            margin-top: 18px;
+            font-size: 12px;
+            text-align: center;
+            color: #ff4967;
+        }
+
+        .security-note {
+            text-align: center;
+            color: #777;
+            font-size: 11px;
+            margin-top: 25px;
+        }
+
+        @media(max-width: 750px) {
+            body {
+                overflow: auto;
+            }
+
+            .login-container {
+                grid-template-columns: 1fr;
+                max-width: 460px;
+            }
+
+
+            .brand-panel {
+                min-height: 220px;
+                padding: 28px;
+            }
+
+            .brand-content h1 {
+                font-size: 35px;
+                margin-top: 35px;
+            }
+
+            .brand-footer {
+                margin-top: 25px;
+            }
+
+            .form-panel {
+                padding: 38px 28px;
+            }
+        }
+        /* LOGIN CARD HOVER EFFECT */
+.login-container {
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.login-container:hover {
+    border-color: rgba(255, 7, 58, 0.45);
+    box-shadow:
+        0 0 25px rgba(255, 7, 58, 0.15),
+        0 0 65px rgba(255, 7, 58, 0.08);
+}
+        .auth-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #333;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #888;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.auth-tab.active {
+    color: #ff073a;
+    border-bottom-color: #ff073a;
+}
+/* FITZONE MOVING BACKGROUND GRID */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 7, 58, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 7, 58, 0.035) 1px, transparent 1px);
+    background-size: 55px 55px;
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+    pointer-events: none;
+    z-index: 0;
+    animation: gridMove 18s linear infinite;
+}
+
+@keyframes gridMove {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 55px 55px;
+    }
+}
+@keyframes loginAppear {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}/* FITZONE ANIMATED LOGIN BUTTON */
+.login-btn {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    padding: 16px;
+    margin-top: 22px;
+
+    background: linear-gradient(90deg, #ff073a, #c9002b);
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
+
+    border: 1px solid #ff3155;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-align: center;
+    cursor: pointer;
+
+    box-shadow: 0 0 15px rgba(255, 7, 58, 0.3);
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(90deg, #ff3155, #ff073a);
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
+    box-shadow: 0 0 25px rgba(255, 7, 58, 0.65);
+}
+
+.login-btn:active {
+    transform: scale(0.98);
+}
+#loginForm {
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+#loginForm.form-switching {
+    opacity: 0;
+    transform: translateY(8px);
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+
+    <main class="login-container">
+
+        <section class="brand-panel">
+            <div class="logo">FIT<span>ZONE</span></div>
+
+            <div class="brand-content">
+                <h1>BUILD YOUR<br><span>STRONGER</span><br>SELF.</h1>
+                <p>
+                    Your fitness journey starts here.
+                    Train harder, stay consistent and
+                    become the best version of yourself.
+                </p>
+            </div>
+
+           <div class="brand-footer">
+    BUILD YOUR STRENGTH.<br>
+    <span>OWN YOUR FITNESS.</span>
+</div>
+        </section>
+
+        <section class="form-panel">
+
+           <h2 id="formTitle">WELCOME BACK</h2>
+<p class="subtitle" id="formSubtitle">Login to your FitZone account</p>
+
+<div class="auth-tabs">
+    <button type="button" class="auth-tab active" id="signInTab">
+        SIGN IN
+    </button>
+
+    <button type="button" class="auth-tab" id="signUpTab">
+        SIGN UP
+    </button>
+</div>
+
+        
+<form id="loginForm">
+
+    <div class="input-group" id="nameGroup" style="display: none;">
+        <label for="username">FULL NAME</label>
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter your full name"
+            autocomplete="name"
+        >
+    </div>
+
+    <div class="input-group floating-group">
+        <input
+            type="email"
+            id="email"
+            placeholder=" "
+            required
+            autocomplete="username"
+        >
+        <label for="email">EMAIL ADDRESS</label>
+    </div>
+
+    <div class="input-group floating-group">
+        <div class="password-box">
+            <input
+                type="password"
+                id="password"
+                placeholder=" "
+                required
+                autocomplete="current-password"
+            >
+
+            <label for="password">PASSWORD</label>
+
+            <button
+                type="button"
+                class="toggle-password"
+                id="togglePassword"
+            >SHOW</button>
+        </div>
+    </div>
+
+    <button type="submit" class="login-btn" id="loginButton">
+        LOGIN TO FITZONE →
+    </button>
+
+    <p id="message" role="status"></p>
+
+</form>
+
+
+            <p class="security-note">
+                SECURE ACCESS · FITZONE MEMBERSHIP SYSTEM
+            </p>
+
+        </section>
+
+    </main>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const message = document.getElementById('message');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const loginButton = document.getElementById('loginButton');
+// Sign In / Sign Up elements
+const signInTab = document.getElementById('signInTab');
+const signUpTab = document.getElementById('signUpTab');
+const nameGroup = document.getElementById('nameGroup');
+const usernameInput = document.getElementById('username');
+const formTitle = document.getElementById('formTitle');
+const formSubtitle = document.getElementById('formSubtitle');
+
+let isSignUp = false;
+
+// Switch to Sign In
+signInTab.addEventListener('click', function () {
+    isSignUp = false;
+
+    signInTab.classList.add('active');
+    signUpTab.classList.remove('active');
+
+    nameGroup.style.display = 'none';
+    usernameInput.required = false;
+
+    formTitle.textContent = 'WELCOME BACK';
+    formSubtitle.textContent = 'Login to your FitZone account';
+    loginButton.textContent = 'LOGIN TO FITZONE →';
+    message.textContent = '';
+});
+
+// Switch to Sign Up
+signUpTab.addEventListener('click', function () {
+    const form = document.getElementById('loginForm');
+
+    form.classList.add('form-switching');
+
+    setTimeout(() => {
+        isSignUp = true;
+
+        signUpTab.classList.add('active');
+        signInTab.classList.remove('active');
+
+        nameGroup.style.display = 'block';
+        usernameInput.required = true;
+
+        formTitle.textContent = 'JOIN FITZONE';
+        formSubtitle.textContent = 'Create your FitZone account';
+        loginButton.textContent = 'CREATE ACCOUNT →';
+        message.textContent = '';
+
+        form.classList.remove('form-switching');
+    }, 180);
+});
+        togglePassword.addEventListener('click', function () {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.textContent = 'HIDE';
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.textContent = 'SHOW';
+            }
+        });
+
+       loginForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    message.style.color = '#ff4967';
+    message.textContent = isSignUp
+        ? 'Creating your account...'
+        : 'Checking your account...';
+
+    loginButton.disabled = true;
+
+    const email = document.getElementById('email').value.trim();
+    const password = passwordInput.value;
+
+    try {
+        let response;
+
+        if (isSignUp) {
+            const username = usernameInput.value.trim();
+
+            response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            });
+
+        } else {
+            response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Something went wrong.');
+        }
+
+        if (isSignUp) {
+            signInTab.click();
+
+            message.style.color = '#42df86';
+            message.textContent =
+                'Account created successfully! Please sign in.';
+
+            passwordInput.value = '';
+
+        } else {
+            message.style.color = '#42df86';
+            message.textContent =
+                'Login successful! Opening FitZone...';
+
+            window.location.href = '/index.html';
+        }
+
+    } catch (error) {
+        message.style.color = '#ff4967';
+        message.textContent = error.message;
+
+    } finally {
+        loginButton.disabled = false;
+    }
+});
+           
+    </script>
+
+</body>
+</html>
